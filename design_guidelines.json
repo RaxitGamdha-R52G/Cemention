@@ -1,0 +1,176 @@
+{
+  "design_system": {
+    "identity": {
+      "name": "Cemention",
+      "archetype": "The Performance Pro + Swiss High-Contrast",
+      "vibe": "Industrial, Solid, Precise, Trustworthy",
+      "emotional_tone": "Confidence in every ton. Digital efficiency meets concrete reliability."
+    },
+    "typography": {
+      "font_family": {
+        "headings": "Manrope, sans-serif",
+        "body": "Inter, sans-serif",
+        "data": "JetBrains Mono, monospace"
+      },
+      "weights": {
+        "light": 300,
+        "regular": 400,
+        "medium": 500,
+        "bold": 700,
+        "black": 800
+      },
+      "styles": {
+        "h1": "font-heading font-black text-5xl md:text-7xl tracking-tight leading-none text-slate-900",
+        "h2": "font-heading font-bold text-3xl md:text-5xl tracking-tight text-slate-900",
+        "h3": "font-heading font-bold text-xl md:text-2xl tracking-tight text-slate-800",
+        "body_large": "font-body text-lg leading-relaxed text-slate-600",
+        "body_default": "font-body text-base leading-relaxed text-slate-600",
+        "caption": "font-body text-sm uppercase tracking-widest text-slate-500 font-bold",
+        "data_value": "font-mono font-medium text-slate-900",
+        "price": "font-mono font-bold text-2xl tracking-tight text-orange-600"
+      },
+      "import_statement": "@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Manrope:wght@400;700;800&display=swap');"
+    },
+    "colors": {
+      "palette": {
+        "primary": {
+          "DEFAULT": "#0F172A",
+          "foreground": "#F8FAFC",
+          "hover": "#1E293B",
+          "description": "Slate 900 - Structural, Deep, Professional"
+        },
+        "secondary": {
+          "DEFAULT": "#F1F5F9",
+          "foreground": "#0F172A",
+          "hover": "#E2E8F0",
+          "description": "Slate 100 - Concrete Foundation"
+        },
+        "accent": {
+          "DEFAULT": "#F97316",
+          "foreground": "#FFFFFF",
+          "hover": "#EA580C",
+          "description": "Orange 500 - Safety, High Visibility, Action"
+        },
+        "background": {
+          "DEFAULT": "#FFFFFF",
+          "secondary": "#F8FAFC",
+          "tertiary": "#F1F5F9"
+        },
+        "surface": {
+          "card": "#FFFFFF",
+          "popover": "#FFFFFF",
+          "border": "#E2E8F0"
+        },
+        "feedback": {
+          "success": "#10B981",
+          "warning": "#F59E0B",
+          "error": "#EF4444",
+          "info": "#3B82F6"
+        }
+      },
+      "usage_rules": {
+        "gradients": "NO gradients for backgrounds. Use solid colors or noise textures.",
+        "text_contrast": "Ensure WCAG AA compliance. Use Slate-900 for main text, Slate-600 for secondary.",
+        "borders": "Use Slate-200 (#E2E8F0) for subtle borders. Use Orange-500 for active borders."
+      }
+    },
+    "layout": {
+      "spacing": {
+        "container_padding": "p-4 md:p-8 lg:p-12",
+        "section_gap": "gap-8 md:gap-16",
+        "component_gap": "gap-4"
+      },
+      "grids": {
+        "dashboard": "grid grid-cols-1 md:grid-cols-12 gap-6",
+        "marketing": "grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12",
+        "product_list": "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+      },
+      "border_radius": {
+        "default": "rounded-none",
+        "button": "rounded-sm",
+        "card": "rounded-sm",
+        "input": "rounded-sm"
+      },
+      "shadows": {
+        "card": "shadow-[0_1px_3px_0_rgb(0,0,0,0.1),0_1px_2px_-1px_rgb(0,0,0,0.1)]",
+        "hover": "shadow-[0_4px_6px_-1px_rgb(0,0,0,0.1),0_2px_4px_-2px_rgb(0,0,0,0.1)]",
+        "button": "shadow-sm"
+      }
+    },
+    "components": {
+      "Button": {
+        "base": "inline-flex items-center justify-center whitespace-nowrap text-sm font-bold ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+        "variants": {
+          "default": "bg-primary text-primary-foreground hover:bg-primary/90 rounded-sm shadow-md active:translate-y-[1px]",
+          "accent": "bg-accent text-accent-foreground hover:bg-accent/90 rounded-sm shadow-md active:translate-y-[1px]",
+          "outline": "border-2 border-primary bg-background hover:bg-accent hover:text-accent-foreground hover:border-accent rounded-sm font-bold",
+          "ghost": "hover:bg-accent/10 hover:text-accent rounded-sm"
+        }
+      },
+      "Card": {
+        "base": "rounded-sm border border-border bg-card text-card-foreground shadow-sm",
+        "interactive": "hover:border-accent/50 transition-colors duration-200"
+      },
+      "Input": {
+        "base": "flex h-12 w-full rounded-sm border-2 border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50 transition-all font-medium"
+      }
+    },
+    "visual_enhancers": {
+      "texture": {
+        "noise": "bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mixed-blend-overlay fixed inset-0 pointer-events-none z-50",
+        "concrete": "Use subtle concrete texture overlays in hero sections for brand alignment."
+      },
+      "micro_interactions": {
+        "hover_lift": "hover:-translate-y-1 transition-transform duration-200",
+        "click_press": "active:scale-[0.98] transition-transform duration-75"
+      },
+      "icons": {
+        "library": "lucide-react",
+        "style": "stroke-width: 2px; size: 20px"
+      }
+    },
+    "image_assets": {
+      "hero_background": {
+        "url": "https://images.unsplash.com/photo-1768796373360-95d80c5830fb?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MDZ8MHwxfHNlYXJjaHw0fHxjZW1lbnQlMjBiYWdzJTIwcGFsbGV0JTIwd2FyZWhvdXNlfGVufDB8fHx8MTc3MDUyNDM1Mnww&ixlib=rb-4.1.0&q=85",
+        "alt": "Massive warehouse with pallets of cement bags",
+        "usage": "Landing page hero background with dark overlay"
+      },
+      "trust_indicator": {
+        "url": "https://images.unsplash.com/photo-1659353587228-5dbbebb5d98f?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MTN8MHwxfHNlYXJjaHwxfHxjb25zdHJ1Y3Rpb24lMjBzaXRlJTIwZW5naW5lZXIlMjB0YWJsZXR8ZW58MHx8fHwxNzcwNTI0MzUzfDA&ixlib=rb-4.1.0&q=85",
+        "alt": "Site engineer checking inventory on tablet",
+        "usage": "Testimonials or 'Who it's for' section"
+      },
+      "texture_concrete": {
+        "url": "https://images.unsplash.com/photo-1625308216182-218ff63d47bb?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxNzV8MHwxfHNlYXJjaHwzfHxtb2Rlcm4lMjBjb25jcmV0ZSUyMGFyY2hpdGVjdHVyZSUyMHRleHR1cmV8ZW58MHx8fHwxNzcwNTI0MzU0fDA&ixlib=rb-4.1.0&q=85",
+        "alt": "Concrete wall texture",
+        "usage": "Subtle background for pricing cards or footer"
+      },
+      "logistics_delivery": {
+        "url": "https://images.unsplash.com/photo-1758707845038-1f28b342b487?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY2NjV8MHwxfHNlYXJjaHw0fHxpbmR1c3RyaWFsJTIwZGVsaXZlcnklMjB0YWJsZXR8ZW58MHx8fHwxNzcwNTI0MzU0fDA&ixlib=rb-4.1.0&q=85",
+        "alt": "Delivery van in urban setting",
+        "usage": "Order tracking or Delivery section"
+      }
+    },
+    "universal_guidelines": {
+      "do": [
+        "Use generous padding (p-8+) for containers.",
+        "Use high contrast text (Slate-900) for readability.",
+        "Use 'JetBrains Mono' for all pricing and quantitative data.",
+        "Add data-testid to all interactive elements.",
+        "Use sharp corners (rounded-sm) for a 'constructed' feel."
+      ],
+      "dont": [
+        "Do not use gradients for backgrounds.",
+        "Do not use generic 'Inter' for headings.",
+        "Do not use soft, blurry shadows (keep them tight and sharp).",
+        "Do not use rounded-xl or rounded-2xl (too playful)."
+      ]
+    },
+    "instructions_to_main_agent": {
+      "installation": "Install fonts: @fontsource/manrope @fontsource/inter @fontsource/jetbrains-mono",
+      "setup": "Configure Tailwind theme to match the palette and typography defined above.",
+      "components": "Customize shadcn components in /components/ui to match the 'Industrial Swiss' aesthetic (remove heavy rounding, increase border widths).",
+      "pages": "Prioritize the Dashboard for 'Density' (Bento grid) and the Landing Page for 'Impact' (Tetris grid)."
+    }
+  }
+}
