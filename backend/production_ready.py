@@ -9,7 +9,7 @@ from pathlib import Path
 from datetime import datetime, timezone
 from typing import List
 
-from models import *
+from .models import *
 from database import *
 from auth import get_current_user, require_admin, require_approved, create_access_token
 from otp_service import otp_service
