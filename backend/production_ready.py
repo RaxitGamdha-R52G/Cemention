@@ -10,11 +10,11 @@ from datetime import datetime, timezone
 from typing import List
 
 from .models import *
-from database import *
-from auth import get_current_user, require_admin, require_approved, create_access_token
-from otp_service import otp_service
-from routes_orders import orders_router
-from routes_admin import admin_router
+from .database import *
+from .auth import get_current_user, require_admin, require_approved, create_access_token
+from .otp_service import otp_service
+from .routes_orders import orders_router
+from .routes_admin import admin_router
 
 # ================= BASIC SETUP =================
 
