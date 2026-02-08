@@ -2,9 +2,9 @@ from fastapi import APIRouter, HTTPException, Depends
 from typing import List, Optional
 from datetime import datetime, timezone
 
-from models import *
-from database import *
-from auth import require_admin
+from .models import *
+from .database import *
+from .auth import require_admin
 
 admin_router = APIRouter(prefix="/api/admin", tags=["admin"])
 

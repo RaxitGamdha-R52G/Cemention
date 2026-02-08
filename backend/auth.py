@@ -3,8 +3,8 @@ from typing import Optional
 import jwt
 import os
 from datetime import datetime, timedelta, timezone
-from models import User, UserRole
-from database import users_collection
+from .models import User, UserRole
+from .database import users_collection
 
 SECRET_KEY = os.environ.get("JWT_SECRET_KEY", "cemention-secret-key-change-in-production")
 ALGORITHM = "HS256"

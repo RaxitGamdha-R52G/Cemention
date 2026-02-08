@@ -2,7 +2,7 @@ import os
 from twilio.rest import Client
 from datetime import datetime, timedelta, timezone
 import random
-from database import otp_collection
+from .database import otp_collection
 
 # Twilio configuration - will be set from .env
 TWILIO_ACCOUNT_SID = os.environ.get("TWILIO_ACCOUNT_SID", "")

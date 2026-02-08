@@ -3,9 +3,9 @@ from typing import List
 from datetime import datetime, timezone
 import uuid
 
-from models import *
-from database import *
-from auth import get_current_user, require_approved
+from .models import *
+from .database import *
+from .auth import get_current_user, require_approved
 
 orders_router = APIRouter(prefix="/api/orders", tags=["orders"])
 
