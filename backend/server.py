@@ -12,6 +12,8 @@ from models import *
 from database import *
 from auth import get_current_user, require_admin, require_approved, create_access_token
 from otp_service import otp_service
+from routes_orders import orders_router
+from routes_admin import admin_router
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
@@ -328,8 +330,10 @@ async def delete_address(address_id: str, current_user: User = Depends(get_curre
     
     return {"success": True, "message": "Address deleted"}
 
-# Include router
+# Include routers
 app.include_router(api_router)
+app.include_router(orders_router)
+app.include_router(admin_router)
 
 # CORS
 app.add_middleware(
