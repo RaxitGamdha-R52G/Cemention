@@ -75,6 +75,7 @@ class OTPResponse(BaseModel):
     success: bool
     message: str
     sid: Optional[str] = None
+    otp: Optional[str] = None  # For demo mode
 
 # Product Models
 class Product(BaseModel):
