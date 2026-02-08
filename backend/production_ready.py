@@ -1,5 +1,6 @@
 from fastapi import FastAPI, APIRouter, HTTPException, Depends
 from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 import os
@@ -157,7 +158,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ================= FRONTEND SERVING (REQUIRED FOR RENDER) =================
+# ================= FRONTEND SERVING =================
 
 FRONTEND_BUILD = PROJECT_ROOT / "frontend" / "build"
 
@@ -168,8 +169,19 @@ if FRONTEND_BUILD.exists():
         name="frontend",
     )
 
+# 🔑 SPA fallback for React routing
+@app.get("/{full_path:path}")
+async def serve_spa(full_path: str):
+    index_file = FRONTEND_BUILD / "index.html"
+    if index_file.exists():
+        return FileResponse(index_file)
+    return {"detail": "Frontend not built"}
+
 # ================= SHUTDOWN =================
 
 @app.on_event("shutdown")
 async def shutdown_db():
-    client.close()
+    try:
+        client.close()
+    except Exception:
+        pass
