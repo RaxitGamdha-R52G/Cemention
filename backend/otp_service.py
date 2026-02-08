@@ -52,7 +52,7 @@ class OTPService:
             return {
                 "success": True, 
                 "message": "OTP sent successfully (Demo Mode)",
-                "otp": otp if DEMO_MODE else None
+                "otp": otp  # Always include OTP in demo mode since we're in this branch
             }
     
     async def verify_otp(self, phone: str, otp: str):
