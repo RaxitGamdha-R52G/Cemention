@@ -14,6 +14,19 @@ const AdminPage = () => {
   const [allOrders, setAllOrders] = useState([]);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showProductForm, setShowProductForm] = useState(false);
+  const [editingProduct, setEditingProduct] = useState(null);
+  const [productForm, setProductForm] = useState({
+    name: '',
+    brand: '',
+    description: '',
+    base_price_dealer: 300,
+    base_price_retailer: 303,
+    base_price_customer: 305,
+    min_quantity: 100,
+    stock_available: 10000,
+    image_url: ''
+  });
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -86,6 +99,82 @@ const AdminPage = () => {
       loadAdminData();
     } catch (error) {
       toast.error('Failed to update payment');
+      console.error(error);
+    }
+  };
+
+  const handleCreateProduct = async (e) => {
+    e.preventDefault();
+    try {
+      await adminAPI.createProduct(productForm);
+      toast.success('Product created successfully');
+      setShowProductForm(false);
+      setProductForm({
+        name: '',
+        brand: '',
+        description: '',
+        base_price_dealer: 300,
+        base_price_retailer: 303,
+        base_price_customer: 305,
+        min_quantity: 100,
+        stock_available: 10000,
+        image_url: ''
+      });
+      loadAdminData();
+    } catch (error) {
+      toast.error('Failed to create product');
+      console.error(error);
+    }
+  };
+
+  const handleEditProduct = (product) => {
+    setEditingProduct(product.id);
+    setProductForm({
+      name: product.name,
+      brand: product.brand,
+      description: product.description || '',
+      base_price_dealer: product.base_price_dealer,
+      base_price_retailer: product.base_price_retailer,
+      base_price_customer: product.base_price_customer,
+      min_quantity: product.min_quantity,
+      stock_available: product.stock_available,
+      image_url: product.image_url || ''
+    });
+    setShowProductForm(true);
+  };
+
+  const handleUpdateProduct = async (e) => {
+    e.preventDefault();
+    try {
+      await adminAPI.updateProduct(editingProduct, productForm);
+      toast.success('Product updated successfully');
+      setShowProductForm(false);
+      setEditingProduct(null);
+      setProductForm({
+        name: '',
+        brand: '',
+        description: '',
+        base_price_dealer: 300,
+        base_price_retailer: 303,
+        base_price_customer: 305,
+        min_quantity: 100,
+        stock_available: 10000,
+        image_url: ''
+      });
+      loadAdminData();
+    } catch (error) {
+      toast.error('Failed to update product');
+      console.error(error);
+    }
+  };
+
+  const handleToggleProductStatus = async (productId, currentStatus) => {
+    try {
+      await adminAPI.updateProduct(productId, { is_active: !currentStatus });
+      toast.success('Product status updated');
+      loadAdminData();
+    } catch (error) {
+      toast.error('Failed to update product status');
       console.error(error);
     }
   };
@@ -367,9 +456,163 @@ const AdminPage = () => {
           {/* Products Tab */}
           <TabsContent value="products" className="mt-6">
             <div className="bg-white border-2 border-slate-200 rounded-sm">
-              <div className="p-6 border-b-2 border-slate-200">
+              <div className="p-6 border-b-2 border-slate-200 flex justify-between items-center">
                 <h2 className="font-heading font-bold text-xl text-slate-900">Products Management</h2>
+                <Button
+                  data-testid="add-product-button"
+                  onClick={() => {
+                    setEditingProduct(null);
+                    setProductForm({
+                      name: '',
+                      brand: '',
+                      description: '',
+                      base_price_dealer: 300,
+                      base_price_retailer: 303,
+                      base_price_customer: 305,
+                      min_quantity: 100,
+                      stock_available: 10000,
+                      image_url: ''
+                    });
+                    setShowProductForm(true);
+                  }}
+                  className="h-10 px-6 bg-accent hover:bg-accent/90 text-white font-bold rounded-sm"
+                >
+                  + Add New Product
+                </Button>
               </div>
+              
+              {/* Product Form */}
+              {showProductForm && (
+                <div className="p-6 bg-slate-50 border-b-2 border-slate-200">
+                  <form onSubmit={editingProduct ? handleUpdateProduct : handleCreateProduct} className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-slate-700 mb-1.5">Product Name *</label>
+                        <input
+                          data-testid="product-name-input"
+                          type="text"
+                          value={productForm.name}
+                          onChange={(e) => setProductForm({...productForm, name: e.target.value})}
+                          required
+                          className="w-full h-11 px-3 border-2 border-slate-200 rounded-sm focus:border-accent focus:outline-none"
+                          placeholder="e.g., UltraTech PPC Cement"
+                        />
+                      </div>
+                      
+                      <div>
+                        <label className="block text-sm font-medium text-slate-700 mb-1.5">Brand *</label>
+                        <input
+                          data-testid="product-brand-input"
+                          type="text"
+                          value={productForm.brand}
+                          onChange={(e) => setProductForm({...productForm, brand: e.target.value})}
+                          required
+                          className="w-full h-11 px-3 border-2 border-slate-200 rounded-sm focus:border-accent focus:outline-none"
+                          placeholder="e.g., UltraTech, ACC, Ambuja"
+                        />
+                      </div>
+                      
+                      <div className="md:col-span-2">
+                        <label className="block text-sm font-medium text-slate-700 mb-1.5">Description</label>
+                        <textarea
+                          data-testid="product-description-input"
+                          value={productForm.description}
+                          onChange={(e) => setProductForm({...productForm, description: e.target.value})}
+                          rows={2}
+                          className="w-full px-3 py-2 border-2 border-slate-200 rounded-sm focus:border-accent focus:outline-none"
+                          placeholder="Product description (optional)"
+                        />
+                      </div>
+                      
+                      <div>
+                        <label className="block text-sm font-medium text-slate-700 mb-1.5">Dealer Price (₹ per bag) *</label>
+                        <input
+                          data-testid="dealer-price-input"
+                          type="number"
+                          value={productForm.base_price_dealer}
+                          onChange={(e) => setProductForm({...productForm, base_price_dealer: parseInt(e.target.value)})}
+                          required
+                          min="1"
+                          className="w-full h-11 px-3 border-2 border-slate-200 rounded-sm focus:border-accent focus:outline-none font-mono"
+                        />
+                      </div>
+                      
+                      <div>
+                        <label className="block text-sm font-medium text-slate-700 mb-1.5">Retailer Price (₹ per bag) *</label>
+                        <input
+                          data-testid="retailer-price-input"
+                          type="number"
+                          value={productForm.base_price_retailer}
+                          onChange={(e) => setProductForm({...productForm, base_price_retailer: parseInt(e.target.value)})}
+                          required
+                          min="1"
+                          className="w-full h-11 px-3 border-2 border-slate-200 rounded-sm focus:border-accent focus:outline-none font-mono"
+                        />
+                      </div>
+                      
+                      <div>
+                        <label className="block text-sm font-medium text-slate-700 mb-1.5">Customer Price (₹ per bag) *</label>
+                        <input
+                          data-testid="customer-price-input"
+                          type="number"
+                          value={productForm.base_price_customer}
+                          onChange={(e) => setProductForm({...productForm, base_price_customer: parseInt(e.target.value)})}
+                          required
+                          min="1"
+                          className="w-full h-11 px-3 border-2 border-slate-200 rounded-sm focus:border-accent focus:outline-none font-mono"
+                        />
+                      </div>
+                      
+                      <div>
+                        <label className="block text-sm font-medium text-slate-700 mb-1.5">Stock Available *</label>
+                        <input
+                          data-testid="stock-input"
+                          type="number"
+                          value={productForm.stock_available}
+                          onChange={(e) => setProductForm({...productForm, stock_available: parseInt(e.target.value)})}
+                          required
+                          min="0"
+                          className="w-full h-11 px-3 border-2 border-slate-200 rounded-sm focus:border-accent focus:outline-none font-mono"
+                        />
+                      </div>
+                      
+                      <div className="md:col-span-2">
+                        <label className="block text-sm font-medium text-slate-700 mb-1.5">Image URL (optional)</label>
+                        <input
+                          data-testid="image-url-input"
+                          type="text"
+                          value={productForm.image_url}
+                          onChange={(e) => setProductForm({...productForm, image_url: e.target.value})}
+                          className="w-full h-11 px-3 border-2 border-slate-200 rounded-sm focus:border-accent focus:outline-none"
+                          placeholder="https://example.com/cement-image.jpg"
+                        />
+                      </div>
+                    </div>
+                    
+                    <div className="flex gap-3 pt-2">
+                      <Button
+                        data-testid="save-product-button"
+                        type="submit"
+                        className="h-11 px-6 bg-accent hover:bg-accent/90 text-white font-bold rounded-sm"
+                      >
+                        {editingProduct ? 'Update Product' : 'Create Product'}
+                      </Button>
+                      <Button
+                        data-testid="cancel-product-button"
+                        type="button"
+                        variant="outline"
+                        onClick={() => {
+                          setShowProductForm(false);
+                          setEditingProduct(null);
+                        }}
+                        className="h-11 px-6 border-2 border-slate-300 rounded-sm"
+                      >
+                        Cancel
+                      </Button>
+                    </div>
+                  </form>
+                </div>
+              )}
               
               <div className="overflow-x-auto">
                 <table className="w-full">
@@ -382,6 +625,7 @@ const AdminPage = () => {
                       <th className="px-6 py-3 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">Customer Price</th>
                       <th className="px-6 py-3 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">Stock</th>
                       <th className="px-6 py-3 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">Status</th>
+                      <th className="px-6 py-3 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">Actions</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-200">
@@ -419,6 +663,30 @@ const AdminPage = () => {
                           }`}>
                             {product.is_active ? 'ACTIVE' : 'INACTIVE'}
                           </span>
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="flex gap-2">
+                            <Button
+                              data-testid={`edit-product-${product.id}`}
+                              onClick={() => handleEditProduct(product)}
+                              variant="outline"
+                              className="h-9 px-4 border-2 border-blue-300 text-blue-600 hover:bg-blue-50 rounded-sm font-bold text-xs"
+                            >
+                              Edit
+                            </Button>
+                            <Button
+                              data-testid={`toggle-status-${product.id}`}
+                              onClick={() => handleToggleProductStatus(product.id, product.is_active)}
+                              variant="outline"
+                              className={`h-9 px-4 border-2 rounded-sm font-bold text-xs ${
+                                product.is_active
+                                  ? 'border-red-300 text-red-600 hover:bg-red-50'
+                                  : 'border-green-300 text-green-600 hover:bg-green-50'
+                              }`}
+                            >
+                              {product.is_active ? 'Deactivate' : 'Activate'}
+                            </Button>
+                          </div>
                         </td>
                       </tr>
                     ))}
