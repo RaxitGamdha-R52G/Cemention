@@ -48,6 +48,7 @@ class OTPService:
                 return {"success": False, "message": f"Failed to send OTP: {str(e)}"}
         else:
             # Demo mode - return OTP in response
+            print(f"DEBUG: DEMO_MODE = {DEMO_MODE}, OTP = {otp}")
             return {
                 "success": True, 
                 "message": "OTP sent successfully (Demo Mode)",
